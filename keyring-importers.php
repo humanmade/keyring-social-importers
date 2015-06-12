@@ -479,6 +479,7 @@ abstract class Keyring_Importer_Base {
 						<strong><?php echo $this->service->get_token()->get_display(); ?></strong>
 					</td>
 				</tr>
+				<?php if ( taxonomy_exists( 'category' ) && is_object_in_taxonomy( 'post', 'category' ) ) : ?>
 				<tr valign="top">
 					<th scope="row">
 						<label for="category"><?php _e( 'Import posts into Category', 'keyring' ) ?></label>
@@ -495,6 +496,8 @@ abstract class Keyring_Importer_Base {
 						</select> (<a href="edit-tags.php?taxonomy=category"><?php _e( 'Add New Category', 'keyring' ); ?></a>)
 					</td>
 				</tr>
+				<?php endif; ?>
+				<?php if ( taxonomy_exists( 'post_tag' ) && is_object_in_taxonomy( 'post', 'post_tag' ) ) : ?>
 				<tr valign="top">
 					<th scope="row">
 						<label for="tags"><?php _e( 'Add tags to all posts', 'keyring' ) ?></label>
@@ -510,6 +513,7 @@ abstract class Keyring_Importer_Base {
 						<p class="description"><?php _e( 'Comma-separated list of tags to add to all imported posts.', 'keyring' ); ?></p>
 					</td>
 				</tr>
+				<?php endif; ?>
 				<tr valign="top">
 					<th scope="row">
 						<label for="author"><?php _e( 'Author of imported posts', 'keyring' ) ?></label>

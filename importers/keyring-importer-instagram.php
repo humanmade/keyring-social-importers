@@ -16,7 +16,7 @@ class Keyring_Instagram_Importer extends Keyring_Importer_Base {
 
 	function handle_request_options() {
 		// Validate options and store them so they can be used in auto-imports
-		if ( empty( $_POST['category'] ) || !ctype_digit( $_POST['category'] ) )
+		if ( taxonomy_exists( 'category' ) && is_object_in_taxonomy( 'post', 'category' ) && ( empty( $_POST['category'] ) || !ctype_digit( $_POST['category'] ) ) )
 			$this->error( __( "Make sure you select a valid category to import your pictures into." ) );
 
 		if ( empty( $_POST['author'] ) || !ctype_digit( $_POST['author'] ) )
