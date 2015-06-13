@@ -83,7 +83,6 @@ class Keyring_Twitter_Importer extends Keyring_Importer_Base {
 		$url = "https://api.twitter.com/1.1/statuses/user_timeline.json?";
 		$params = array(
 			'user_id' => $this->get_option( 'user_id' ),
-			'trim_user' => 'true',
 			'count' => 75, // More than this and Twitter seems to get flaky
 			'include_entities' => 'true',
 		);
