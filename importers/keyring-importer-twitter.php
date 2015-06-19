@@ -71,6 +71,7 @@ class Keyring_Twitter_Importer extends Keyring_Importer_Base {
 				'include_replies' => (bool) $_POST['include_replies'],
 				'include_rts'     => (bool) $_POST['include_rts'],
 				'auto_import'     => (bool) $_POST['auto_import'],
+				'auto_publish'    => (bool) $_POST['auto_publish'],
 				'user_id'         => $this->service->get_token()->get_meta( 'user_id' ),
 			) );
 
@@ -219,7 +220,7 @@ class Keyring_Twitter_Importer extends Keyring_Importer_Base {
 			$in_reply_to_screen_name = $post->in_reply_to_screen_name;
 			$in_reply_to_status_id   = $post->in_reply_to_status_id;
 			$post_author             = $this->get_option( 'author' );
-			$post_status             = 'publish';
+			$post_status             = $this->get_option( 'auto_publish' ) ? 'publish' : 'draft';
 			$twitter_raw             = $post;
 
 			// Build the post array, and hang onto it along with the others

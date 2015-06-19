@@ -35,6 +35,7 @@ class Keyring_Moves_Importer extends Keyring_Importer_Base {
 				'tags'        => explode( ',', $_POST['tags'] ),
 				'author'      => (int) $_POST['author'],
 				'auto_import' => $_POST['auto_import'],
+				'auto_publish' => (bool) $_POST['auto_publish'],
 			) );
 
 			$this->step = 'import';
@@ -192,7 +193,7 @@ class Keyring_Moves_Importer extends Keyring_Importer_Base {
 
 		// Other bits
 		$post_author = $this->get_option( 'author' );
-		$post_status = 'publish';
+		$post_status = $this->get_option( 'auto_publish' ) ? 'publish' : 'draft';
 		$moves_raw   = $importdata; // Keep all of the things
 
 		// Build the post array, and hang onto it along with the others

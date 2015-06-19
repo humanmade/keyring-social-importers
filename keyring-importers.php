@@ -118,7 +118,7 @@ abstract class Keyring_Importer_Base {
 
 		// Make sure we have a scheduled job to handle auto-imports if enabled
 		if ( $this->get_option( 'auto_import' ) && !wp_get_schedule( 'keyring_' . static::SLUG . '_import_auto' ) )
-			wp_schedule_event( time(), 'hourly', 'keyring_' . static::SLUG . '_import_auto' );
+			wp_schedule_event( time(), 'hourly', 'keyring_' . static::SLUG . '_import_auto', array( 'options' => $this->options ) );
 
 		// Form handling here, pre-output (in case we need to redirect etc)
 		$this->handle_request();
@@ -259,10 +259,11 @@ abstract class Keyring_Importer_Base {
 			} else {
 				// Otherwise reset all default/built-ins
 				$this->set_option( array(
-					'category'    => null,
-					'tags'        => null,
-					'author'      => null,
-					'auto_import' => null,
+					'category'     => null,
+					'tags'         => null,
+					'author'       => null,
+					'auto_import'  => null,
+					'auto_publish' => null,
 				) );
 			}
 
@@ -549,6 +550,15 @@ abstract class Keyring_Importer_Base {
 						<input type="checkbox" value="1" name="auto_import" id="auto_import"<?php echo checked( 'true' == $this->get_option( 'auto_import', 'true' ) ); ?> />
 					</td>
 				</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<label for="auto_publish"><?php _e( 'Auto-publish new content', 'keyring' ) ?></label>
+					</th>
+					<td>
+						<input type="checkbox" value="1" name="auto_publish" id="auto_publish"<?php echo checked( 'true' == $this->get_option( 'auto_publish', 'true' ) ); ?> />
+					</td>
+				</tr>
 			</table>
 
 			<p class="submit">
@@ -741,7 +751,7 @@ abstract class Keyring_Importer_Base {
 	 * sure to also update anything in the DB required for the next run. If you set up your
 	 * other methods "discretely" enough, you might not need to override this.
 	 */
-	function do_auto_import() {
+	function do_auto_import( $args = null ) {
 		defined( 'WP_IMPORTING' ) or define( 'WP_IMPORTING', true );
 		do_action( 'import_start' );
 		set_time_limit( 0 );
