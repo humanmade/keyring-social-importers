@@ -751,7 +751,7 @@ abstract class Keyring_Importer_Base {
 	 * sure to also update anything in the DB required for the next run. If you set up your
 	 * other methods "discretely" enough, you might not need to override this.
 	 */
-	function do_auto_import( $args = null ) {
+	function do_auto_import() {
 		defined( 'WP_IMPORTING' ) or define( 'WP_IMPORTING', true );
 		do_action( 'import_start' );
 		set_time_limit( 0 );
