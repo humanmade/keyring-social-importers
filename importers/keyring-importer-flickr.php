@@ -74,8 +74,8 @@ class Keyring_Flickr_Importer extends Keyring_Importer_Base {
 				'category'        => (int) $_POST['category'],
 				'tags'            => explode( ',', $_POST['tags'] ),
 				'author'          => (int) $_POST['author'],
-				'auto_import'     => (bool) $_POST['auto_import'],
-				'auto_publish'    => (bool) $_POST['auto_publish'],
+				'auto_import'     => isset( $_POST['auto_import'] ),
+				'auto_publish'    => isset( $_POST['auto_publish'] ),
 				'post_password'   => (string) $_POST['post_password'],
 			) );
 
