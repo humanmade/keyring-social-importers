@@ -32,10 +32,10 @@ class Keyring_Instagram_Importer extends Keyring_Importer_Base {
 			$this->step = 'options';
 		} else {
 			$this->set_option( array(
-				'category'    => (int) $_POST['category'],
-				'tags'        => explode( ',', $_POST['tags'] ),
-				'author'      => (int) $_POST['author'],
-				'auto_import' => $_POST['auto_import'],
+				'category'     => isset( $_POST['category'] ) ? (int) $_POST['category'] : 0,
+				'tags'         => isset( $_POST['tags'] ) ? explode( ',', $_POST['tags'] ) : array(),
+				'author'       => (int) $_POST['author'],
+				'auto_import'  => $_POST['auto_import'],
 				'auto_publish' => (bool) $_POST['auto_publish'],
 			) );
 

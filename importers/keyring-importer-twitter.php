@@ -65,8 +65,8 @@ class Keyring_Twitter_Importer extends Keyring_Importer_Base {
 			$this->step = 'greet';
 		} else {
 			$this->set_option( array(
-				'category'        => (int) $_POST['category'],
-				'tags'            => explode( ',', $_POST['tags'] ),
+				'category'        => isset( $_POST['category'] ) ? (int) $_POST['category'] : 0,
+				'tags'            => isset( $_POST['tags'] ) ? explode( ',', $_POST['tags'] ) : array(),
 				'author'          => (int) $_POST['author'],
 				'include_replies' => (bool) $_POST['include_replies'],
 				'include_rts'     => (bool) $_POST['include_rts'],
