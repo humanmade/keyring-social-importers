@@ -33,11 +33,11 @@ class Keyring_Instapaper_Importer extends Keyring_Importer_Base {
 			$this->step = 'options';
 		} else {
 			$this->set_option( array(
-				'category'    => (int) $_POST['category'],
-				'tags'        => explode( ',', $_POST['tags'] ),
-				'author'      => (int) $_POST['author'],
-				'auto_import' => $_POST['auto_import'],
-				'auto_publish' => (bool) $_POST['auto_publish'],
+				'category'     => (int) $_POST['category'],
+				'tags'         => explode( ',', $_POST['tags'] ),
+				'author'       => (int) $_POST['author'],
+				'auto_import'  => isset( $_POST['auto_import'] ),
+				'auto_publish' => isset( $_POST['auto_publish'] ),
 			) );
 
 			$this->step = 'import';
