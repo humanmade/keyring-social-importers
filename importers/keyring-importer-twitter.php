@@ -68,10 +68,10 @@ class Keyring_Twitter_Importer extends Keyring_Importer_Base {
 				'category'        => isset( $_POST['category'] ) ? (int) $_POST['category'] : 0,
 				'tags'            => isset( $_POST['tags'] ) ? explode( ',', $_POST['tags'] ) : array(),
 				'author'          => (int) $_POST['author'],
-				'include_replies' => (bool) $_POST['include_replies'],
-				'include_rts'     => (bool) $_POST['include_rts'],
-				'auto_import'     => (bool) $_POST['auto_import'],
-				'auto_publish'    => (bool) $_POST['auto_publish'],
+				'include_replies' => isset( $_POST['include_replies'] ),
+				'include_rts'     => isset( $_POST['include_rts'] ),
+				'auto_import'     => isset( $_POST['auto_import'] ),
+				'auto_publish'    => isset( $_POST['auto_publish'] ),
 				'user_id'         => $this->service->get_token()->get_meta( 'user_id' ),
 			) );
 
