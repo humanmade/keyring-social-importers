@@ -109,7 +109,7 @@ class Keyring_Flickr_Importer extends Keyring_Importer_Base {
 			'extras'         => implode( ',', $extras ),
 		);
 
-		$url = $url . http_build_query( $params );
+		$url = $url . http_build_query( $params, null, '&', PHP_QUERY_RFC1738 );
 
 
 		if ( $this->auto_import ) {

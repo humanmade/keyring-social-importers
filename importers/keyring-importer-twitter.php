@@ -24,7 +24,7 @@ class Keyring_Twitter_Importer extends Keyring_Importer_Base {
 				<label for="include_rts"><?php _e( 'Import retweets', 'keyring' ); ?></label>
 			</th>
 			<td>
-				<input type="checkbox" value="1" name="include_rts" id="include_rts"<?php echo checked( $this->get_option( 'include_rts', true ) ); ?> />
+				<input type="checkbox" value="1" name="include_rts" id="include_rts"<?php echo checked( true, $this->get_option( 'include_rts', true ) ); ?> />
 			</td>
 		</tr>
 		<tr valign="top">
@@ -32,7 +32,7 @@ class Keyring_Twitter_Importer extends Keyring_Importer_Base {
 				<label for="include_replies"><?php _e( 'Import @replies', 'keyring' ); ?></label>
 			</th>
 			<td>
-				<input type="checkbox" value="1" name="include_replies" id="include_replies"<?php echo checked( $this->get_option( 'include_replies', true ) ); ?> />
+				<input type="checkbox" value="1" name="include_replies" id="include_replies"<?php echo checked( true, $this->get_option( 'include_replies', true ) ); ?> />
 			</td>
 		</tr><?php
 	}
@@ -44,21 +44,6 @@ class Keyring_Twitter_Importer extends Keyring_Importer_Base {
 
 		if ( empty( $_POST['author'] ) || !ctype_digit( $_POST['author'] ) )
 			$this->error( __( "You must select an author to assign to all checkins." ) );
-
-		if ( isset( $_POST['auto_import'] ) )
-			$_POST['auto_import'] = true;
-		else
-			$_POST['auto_import'] = false;
-
-		if ( isset( $_POST['include_rts'] ) )
-			$_POST['include_rts'] = true;
-		else
-			$_POST['include_rts'] = false;
-
-		if ( isset( $_POST['include_replies'] ) )
-			$_POST['include_replies'] = true;
-		else
-			$_POST['include_replies'] = false;
 
 		// If there were errors, output them, otherwise store options and start importing
 		if ( count( $this->errors ) ) {
@@ -87,11 +72,11 @@ class Keyring_Twitter_Importer extends Keyring_Importer_Base {
 			'count' => 75, // More than this and Twitter seems to get flaky
 			'include_entities' => 'true',
 		);
-		if ( false == $this->get_option( 'include_replies' ) )
+		if ( ! $this->get_option( 'include_replies' ) )
 			$params['exclude_replies'] = 'true';
-		if ( true == $this->get_option( 'include_rts' ) )
+		if ( $this->get_option( 'include_rts' ) )
 			$params['include_rts'] = 'true';
-		$url = $url . http_build_query( $params );
+		$url = $url . http_build_query( $params, null, '&', PHP_QUERY_RFC1738 );
 
 
 		if ( $this->auto_import ) {

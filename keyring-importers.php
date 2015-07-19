@@ -117,8 +117,9 @@ abstract class Keyring_Importer_Base {
 		}
 
 		// Make sure we have a scheduled job to handle auto-imports if enabled
-		if ( $this->get_option( 'auto_import' ) && !wp_get_schedule( 'keyring_' . static::SLUG . '_import_auto' ) )
-			wp_schedule_event( time(), 'hourly', 'keyring_' . static::SLUG . '_import_auto', array( 'options' => $this->options ) );
+		if ( $this->get_option( 'auto_import' ) && ! wp_get_schedule( 'keyring_' . static::SLUG . '_import_auto' ) ) {
+			wp_schedule_event( time(), 'hourly', 'keyring_' . static::SLUG . '_import_auto' );
+		}
 
 		// Form handling here, pre-output (in case we need to redirect etc)
 		$this->handle_request();
@@ -750,19 +751,21 @@ abstract class Keyring_Importer_Base {
 	 * rely solely on database state of some sort, since nothing is passed in. Make
 	 * sure to also update anything in the DB required for the next run. If you set up your
 	 * other methods "discretely" enough, you might not need to override this.
+ 	 *
+ 	 * @param array $options 	Options passed into the cron event schedule
 	 */
 	function do_auto_import() {
 		defined( 'WP_IMPORTING' ) or define( 'WP_IMPORTING', true );
 		do_action( 'import_start' );
 		set_time_limit( 0 );
 		// In case auto-import has been disabled, clear all jobs and bail
-		if ( !$this->get_option( 'auto_import' ) ) {
+		if ( ! $this->get_option( 'auto_import' ) ) {
 			wp_clear_scheduled_hook( 'keyring_' . static::SLUG . '_import_auto' );
 			return;
 		}
 
 		// Need a token to do anything with this
-		if ( !$this->service->get_token() )
+		if ( ! $this->service->get_token() )
 			return;
 
 		require_once ABSPATH . 'wp-admin/includes/import.php';
@@ -928,7 +931,7 @@ function keyring_register_importer( $slug, $class, $plugin, $info = false ) {
 	);
 
 	// Handle auto-import requests
-	add_action( 'keyring_' . $class::SLUG . '_import_auto', array( $_keyring_importers[$slug], 'do_auto_import' ) );
+	add_action( 'keyring_' . $class::SLUG . '_import_auto', array( $_keyring_importers[$slug], 'do_auto_import' ), 10, 0 );
 }
 
 $keyring_importers = glob( dirname( __FILE__ ) . "/importers/*.php" );
